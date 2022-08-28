@@ -17,6 +17,9 @@ enum Routes {
   final String routeName;
 
   const Routes(this.routeName);
+
+  @override
+  String toString() => routeName;
 }
 
 final GoRouter router = GoRouter(
