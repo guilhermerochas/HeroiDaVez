@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
         child: SingleChildScrollView(
           padding: EdgeInsets.zero,
           child: SizedBox(
-            width: 320,
+            width: MediaQuery.of(context).size.width * 0.20,
             child: Consumer<LoginViewModel>(
               builder: (context, value, _) {
                 return Column(
