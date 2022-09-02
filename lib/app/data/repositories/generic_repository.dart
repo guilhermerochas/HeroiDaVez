@@ -1,7 +1,7 @@
 import 'package:heroi_da_vez/app/data/repositories/i_repository.dart';
 import 'package:objectbox/objectbox.dart';
 
-class GenericRepository<TEntity> extends IRepository<TEntity> {
+class GenericRepository<TEntity> implements IRepository<TEntity> {
   final Box<TEntity> _box;
 
   GenericRepository(Store store) : _box = store.box<TEntity>();

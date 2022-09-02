@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
         child: SingleChildScrollView(
           padding: EdgeInsets.zero,
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.20,
+            width: MediaQuery.of(context).size.width * 0.9,
             child: Consumer<LoginViewModel>(
               builder: (context, value, _) {
                 return Column(
@@ -51,12 +51,13 @@ class LoginPage extends StatelessWidget {
                         labelText: 'Seu ID',
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: value.heroId.isValid() ? 30 : 10,
                     ),
                     HeroiDaVezButton(
                       buttonText: "Login",
                       onPressed: () => value.handleOnLogin(),
+                      disabled: !value.heroId.isValid(),
                     ),
                     const SizedBox(
                       height: 10,

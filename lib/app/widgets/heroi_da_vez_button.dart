@@ -4,13 +4,22 @@ class HeroiDaVezButton extends StatelessWidget {
   final Function()? onPressed;
   final String buttonText;
   final bool swapColors;
+  final bool disabled;
 
   const HeroiDaVezButton({
     Key? key,
     this.onPressed,
     required this.buttonText,
     this.swapColors = false,
+    this.disabled = false,
   }) : super(key: key);
+
+  void handleButtonOnPress() {
+    if (onPressed == null) {
+      return;
+    }
+    onPressed!();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +27,13 @@ class HeroiDaVezButton extends StatelessWidget {
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
-        onPressed: () {
-          if (onPressed == null) {
-            return;
-          }
-
-          onPressed!();
-        },
+        onPressed: disabled ? null : handleButtonOnPress,
         style: ButtonStyle(
+          elevation: MaterialStateProperty.all(disabled ? 1 : 2),
           backgroundColor: MaterialStateProperty.all(
-            swapColors ? Colors.white70 : Colors.red[400],
+            swapColors
+                ? Colors.white70.withOpacity(disabled ? 0.2 : 1)
+                : Colors.red[400]?.withOpacity(disabled ? 0.2 : 1),
           ),
           shape: MaterialStateProperty.all(
             const RoundedRectangleBorder(
