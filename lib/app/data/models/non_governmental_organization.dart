@@ -3,7 +3,16 @@ import 'package:objectbox/objectbox.dart';
 @Entity()
 class NonGovernamentalOrganization {
   int id;
-  String nome = '';
+  String name;
+  String loginCode;
+  String email;
+  int? phoneNumber;
 
-  NonGovernamentalOrganization({required this.nome, this.id = 0});
+  NonGovernamentalOrganization({
+    required this.name,
+    this.id = 0,
+    required this.loginCode,
+    required this.email,
+    this.phoneNumber,
+  });
 }

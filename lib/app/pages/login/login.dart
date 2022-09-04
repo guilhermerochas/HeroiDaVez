@@ -15,8 +15,8 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-          statusBarBrightness: Brightness.light, // For iOS (dark icons)
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
         ),
       ),
       body: Center(

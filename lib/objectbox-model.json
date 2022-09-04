@@ -1,0 +1,86 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:3541860583653262145",
+      "lastPropertyId": "5:8669257669440271945",
+      "name": "IncidentCase",
+      "properties": [
+        {
+          "id": "1:8657518089658452557",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7752429427564858712",
+          "name": "nonGovernamentalOrganizationId",
+          "type": 6
+        },
+        {
+          "id": "3:930836263734566126",
+          "name": "caseName",
+          "type": 9
+        },
+        {
+          "id": "4:6981647595654974255",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "5:8669257669440271945",
+          "name": "valueCost",
+          "type": 8
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:7228886646688818442",
+      "lastPropertyId": "5:3472203058708687167",
+      "name": "NonGovernamentalOrganization",
+      "properties": [
+        {
+          "id": "1:5543446367063064329",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:181722515775966408",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:3439369215004910234",
+          "name": "loginCode",
+          "type": 9
+        },
+        {
+          "id": "4:606953709044300118",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "5:3472203058708687167",
+          "name": "phoneNumber",
+          "type": 6
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:7228886646688818442",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

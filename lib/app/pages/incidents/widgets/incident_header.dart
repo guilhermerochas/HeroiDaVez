@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class IncidentHeader extends StatelessWidget {
+  final int incidentsNumber;
+
   const IncidentHeader({
     Key? key,
+    required this.incidentsNumber,
   }) : super(key: key);
 
   @override
@@ -35,10 +38,10 @@ class IncidentHeader extends StatelessWidget {
             text: TextSpan(
               text: "Total de ",
               style: DefaultTextStyle.of(context).style,
-              children: const <TextSpan>[
+              children: <TextSpan>[
                 TextSpan(
-                  text: "42 casos",
-                  style: TextStyle(
+                  text: "$incidentsNumber casos",
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),

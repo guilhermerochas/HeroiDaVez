@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:heroi_da_vez/app/data/models/incident_case.dart';
+import 'package:heroi_da_vez/app/pages/incidents/incidents_view_model.dart';
+import 'package:heroi_da_vez/app/pages/incidents/widgets/incident_card_item.dart';
+import 'package:provider/provider.dart';
 
-import 'widgets/incident_card_item.dart';
 import 'widgets/incident_header.dart';
 
 class IncidentsPage extends StatelessWidget {
@@ -10,7 +13,12 @@ class IncidentsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double heightMarginSize = MediaQuery.of(context).size.height * 0.05;
 
+    var viewModel = context.read<IncidentsPageViewModel>();
+
+    var incidentCases = viewModel.loadIncidents();
+
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: Container(
         margin: const EdgeInsets.all(10),
         child: Column(
@@ -19,29 +27,46 @@ class IncidentsPage extends StatelessWidget {
             SizedBox(
               height: heightMarginSize,
             ),
-            const IncidentHeader(),
-            const Text(
-              "Bem-vindo!",
-              style: TextStyle(
-                fontSize: 40,
-              ),
+            IncidentHeader(
+              incidentsNumber: incidentCases.length,
             ),
-            const Text(
-              "Escolha um dos casos abaixo e seja um Heroi.",
-              style: TextStyle(
-                fontSize: 25,
-                color: Colors.grey,
+            Container(
+              margin: const EdgeInsetsDirectional.only(end: 60, start: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    "Bem-vindo!",
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                  ),
+                  Text(
+                    "Escolha um dos casos abaixo e seja um Heroi.",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(
-              height: 5,
+              height: 10,
             ),
             Expanded(
               child: ListView.builder(
+                padding: EdgeInsets.zero,
                 key: key,
-                itemBuilder: (context, index) =>
-                    Text("Hello World ${index + 1}"),
-                itemCount: 100,
+                itemBuilder: (context, index) {
+                  IncidentCase incidentCase = incidentCases[index];
+                  return IncidentCardItem(
+                    incidentCase: incidentCase,
+                    handleOnMoreDetailsButton: () =>
+                        viewModel.handleIncidentSelected(index),
+                  );
+                },
+                itemCount: incidentCases.length,
               ),
             )
           ],

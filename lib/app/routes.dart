@@ -11,12 +11,13 @@ enum Routes {
   registerPage("/register"),
   profilePage("/profile"),
   incidentsPage("/incident/list"),
-  incidentDetail("/incident/:incidentId"),
+  incidentDetail("/incident/:incidentId", defaultRouteName: "/incident/"),
   createIncident("/incident/add");
 
   final String routeName;
+  final String? defaultRouteName;
 
-  const Routes(this.routeName);
+  const Routes(this.routeName, {this.defaultRouteName});
 
   @override
   String toString() => routeName;
@@ -43,7 +44,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: Routes.incidentDetail.routeName,
       builder: (context, state) => IncidentDetailPage(
-        incidentId: state.params["incidentId"] as int,
+        incidentId: int.parse(state.params["incidentId"] as String),
       ),
     ),
     GoRoute(
