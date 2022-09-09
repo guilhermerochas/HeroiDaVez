@@ -5,10 +5,48 @@ import 'package:heroi_da_vez/app/pages/login/login_view_model.dart';
 import 'package:heroi_da_vez/app/widgets/heroi_da_vez_button.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
-  final double logoHeightAndWidth = 200;
-
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final double logoHeightAndWidth = 200;
+  final double circularBorderRadious = 15;
+  final FocusNode _focusNode = FocusNode();
+
+  void _handleOnLoginClick(LoginViewModel loginViewModel) {
+    _focusNode.unfocus();
+    var isValid = loginViewModel.handleIsLoginValid();
+
+    if (isValid) {
+      loginViewModel.handleNavigateToLogin();
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(circularBorderRadious),
+            topRight: Radius.circular(circularBorderRadious),
+          ),
+        ),
+        backgroundColor: Colors.red[300],
+        content: Container(
+          padding: const EdgeInsets.all(10),
+          child: const Text(
+            "ONG não encontrada com este Id!",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +63,7 @@ class LoginPage extends StatelessWidget {
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Consumer<LoginViewModel>(
-              builder: (context, value, _) {
+              builder: (context, viewModel, _) {
                 return Column(
                   children: <Widget>[
                     Image(
@@ -38,26 +76,27 @@ class LoginPage extends StatelessWidget {
                     ),
                     TextField(
                       obscureText: false,
-                      focusNode: value.focusNode,
+                      focusNode: _focusNode,
                       keyboardType: TextInputType.number,
-                      onChanged: (inputValue) => value.setHeroId(inputValue),
+                      maxLength: 6,
+                      onChanged: viewModel.setHeroId,
                       decoration: InputDecoration(
                         fillColor: Colors.grey[300],
                         filled: true,
                         border: const OutlineInputBorder(),
-                        errorText: value.heroId.isValid()
+                        errorText: viewModel.heroId.isValid()
                             ? null
-                            : value.heroId.errorMessage,
+                            : viewModel.heroId.errorMessage,
                         labelText: 'Seu ID',
                       ),
                     ),
-                    SizedBox(
-                      height: value.heroId.isValid() ? 30 : 10,
+                    const SizedBox(
+                      height: 30,
                     ),
                     HeroiDaVezButton(
                       buttonText: "Login",
-                      onPressed: () => value.handleOnLogin(),
-                      disabled: !value.heroId.isValid(),
+                      onPressed: () => _handleOnLoginClick(viewModel),
+                      disabled: !viewModel.heroId.isValid(),
                     ),
                     const SizedBox(
                       height: 10,
@@ -69,9 +108,13 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    const HeroiDaVezButton(
+                    HeroiDaVezButton(
                       buttonText: "Entrar como Heroi",
                       swapColors: true,
+                      onPressed: () {
+                        _focusNode.unfocus();
+                        viewModel.handleOnClickIncidentsButton();
+                      },
                     ),
                   ],
                 );

@@ -6,7 +6,7 @@ import 'package:heroi_da_vez/app/data/models/incident_case.dart';
 
 import '../../objectbox.g.dart';
 
-class AppDatabse implements IDatabase {
+class AppDatabase implements IDatabase {
   final Store _store;
 
   @override
@@ -14,15 +14,15 @@ class AppDatabse implements IDatabase {
   @override
   late IRepository<NonGovernamentalOrganization> nonGovernamentalOrganization;
 
-  AppDatabse._create(this._store) {
+  AppDatabase._create(this._store) {
     nonGovernamentalOrganization =
         GenericRepository<NonGovernamentalOrganization>(_store);
     incidentCase = GenericRepository<IncidentCase>(_store);
   }
 
-  static Future<AppDatabse> create() async {
+  static Future<AppDatabase> create() async {
     var storeInstance = await openStore();
-    var instance = AppDatabse._create(storeInstance);
+    var instance = AppDatabase._create(storeInstance);
 
     return instance;
   }

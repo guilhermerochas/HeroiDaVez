@@ -23,7 +23,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 3541860583653262145),
       name: 'IncidentCase',
-      lastPropertyId: const IdUid(5, 8669257669440271945),
+      lastPropertyId: const IdUid(6, 4174176320212213089),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -31,11 +31,6 @@ final _entities = <ModelEntity>[
             name: 'id',
             type: 6,
             flags: 1),
-        ModelProperty(
-            id: const IdUid(2, 7752429427564858712),
-            name: 'nonGovernamentalOrganizationId',
-            type: 6,
-            flags: 0),
         ModelProperty(
             id: const IdUid(3, 930836263734566126),
             name: 'caseName',
@@ -50,7 +45,14 @@ final _entities = <ModelEntity>[
             id: const IdUid(5, 8669257669440271945),
             name: 'valueCost',
             type: 8,
-            flags: 0)
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 4174176320212213089),
+            name: 'organizationId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(1, 5309573881119795786),
+            relationTarget: 'NonGovernamentalOrganization')
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
@@ -86,7 +88,12 @@ final _entities = <ModelEntity>[
             type: 6,
             flags: 0)
       ],
-      relations: <ModelRelation>[],
+      relations: <ModelRelation>[
+        ModelRelation(
+            id: const IdUid(1, 4478626835104914355),
+            name: 'incidents',
+            targetId: const IdUid(1, 3541860583653262145))
+      ],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -111,12 +118,12 @@ ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
       lastEntityId: const IdUid(2, 7228886646688818442),
-      lastIndexId: const IdUid(0, 0),
-      lastRelationId: const IdUid(0, 0),
+      lastIndexId: const IdUid(1, 5309573881119795786),
+      lastRelationId: const IdUid(1, 4478626835104914355),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [7752429427564858712],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -125,7 +132,7 @@ ModelDefinition getObjectBoxModel() {
   final bindings = <Type, EntityDefinition>{
     IncidentCase: EntityDefinition<IncidentCase>(
         model: _entities[0],
-        toOneRelations: (IncidentCase object) => [],
+        toOneRelations: (IncidentCase object) => [object.organization],
         toManyRelations: (IncidentCase object) => {},
         getId: (IncidentCase object) => object.id,
         setId: (IncidentCase object, int id) {
@@ -134,12 +141,12 @@ ModelDefinition getObjectBoxModel() {
         objectToFB: (IncidentCase object, fb.Builder fbb) {
           final caseNameOffset = fbb.writeString(object.caseName);
           final descriptionOffset = fbb.writeString(object.description);
-          fbb.startTable(6);
+          fbb.startTable(7);
           fbb.addInt64(0, object.id);
-          fbb.addInt64(1, object.nonGovernamentalOrganizationId);
           fbb.addOffset(2, caseNameOffset);
           fbb.addOffset(3, descriptionOffset);
           fbb.addFloat64(4, object.valueCost);
+          fbb.addInt64(5, object.organization.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -148,8 +155,6 @@ ModelDefinition getObjectBoxModel() {
           final rootOffset = buffer.derefObject(0);
 
           final object = IncidentCase(
-              nonGovernamentalOrganizationId: const fb.Int64Reader()
-                  .vTableGetNullable(buffer, rootOffset, 6),
               id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
               caseName: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 8, ''),
@@ -157,14 +162,19 @@ ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 10, ''),
               valueCost: const fb.Float64Reader()
                   .vTableGet(buffer, rootOffset, 12, 0));
-
+          object.organization.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          object.organization.attach(store);
           return object;
         }),
     NonGovernamentalOrganization:
         EntityDefinition<NonGovernamentalOrganization>(
             model: _entities[1],
             toOneRelations: (NonGovernamentalOrganization object) => [],
-            toManyRelations: (NonGovernamentalOrganization object) => {},
+            toManyRelations: (NonGovernamentalOrganization object) => {
+                  RelInfo<NonGovernamentalOrganization>.toMany(1, object.id):
+                      object.incidents
+                },
             getId: (NonGovernamentalOrganization object) => object.id,
             setId: (NonGovernamentalOrganization object, int id) {
               object.id = id;
@@ -197,7 +207,11 @@ ModelDefinition getObjectBoxModel() {
                       .vTableGet(buffer, rootOffset, 10, ''),
                   phoneNumber: const fb.Int64Reader()
                       .vTableGetNullable(buffer, rootOffset, 12));
-
+              InternalToManyAccess.setRelInfo(
+                  object.incidents,
+                  store,
+                  RelInfo<NonGovernamentalOrganization>.toMany(1, object.id),
+                  store.box<NonGovernamentalOrganization>());
               return object;
             })
   };
@@ -211,21 +225,22 @@ class IncidentCase_ {
   static final id =
       QueryIntegerProperty<IncidentCase>(_entities[0].properties[0]);
 
-  /// see [IncidentCase.nonGovernamentalOrganizationId]
-  static final nonGovernamentalOrganizationId =
-      QueryIntegerProperty<IncidentCase>(_entities[0].properties[1]);
-
   /// see [IncidentCase.caseName]
   static final caseName =
-      QueryStringProperty<IncidentCase>(_entities[0].properties[2]);
+      QueryStringProperty<IncidentCase>(_entities[0].properties[1]);
 
   /// see [IncidentCase.description]
   static final description =
-      QueryStringProperty<IncidentCase>(_entities[0].properties[3]);
+      QueryStringProperty<IncidentCase>(_entities[0].properties[2]);
 
   /// see [IncidentCase.valueCost]
   static final valueCost =
-      QueryDoubleProperty<IncidentCase>(_entities[0].properties[4]);
+      QueryDoubleProperty<IncidentCase>(_entities[0].properties[3]);
+
+  /// see [IncidentCase.organization]
+  static final organization =
+      QueryRelationToOne<IncidentCase, NonGovernamentalOrganization>(
+          _entities[0].properties[4]);
 }
 
 /// [NonGovernamentalOrganization] entity fields to define ObjectBox queries.
@@ -249,4 +264,9 @@ class NonGovernamentalOrganization_ {
   /// see [NonGovernamentalOrganization.phoneNumber]
   static final phoneNumber = QueryIntegerProperty<NonGovernamentalOrganization>(
       _entities[1].properties[4]);
+
+  /// see [NonGovernamentalOrganization.incidents]
+  static final incidents =
+      QueryRelationToMany<NonGovernamentalOrganization, IncidentCase>(
+          _entities[1].relations[0]);
 }

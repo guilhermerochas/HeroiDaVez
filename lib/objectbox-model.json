@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3541860583653262145",
-      "lastPropertyId": "5:8669257669440271945",
+      "lastPropertyId": "6:4174176320212213089",
       "name": "IncidentCase",
       "properties": [
         {
@@ -13,11 +13,6 @@
           "name": "id",
           "type": 6,
           "flags": 1
-        },
-        {
-          "id": "2:7752429427564858712",
-          "name": "nonGovernamentalOrganizationId",
-          "type": 6
         },
         {
           "id": "3:930836263734566126",
@@ -33,6 +28,14 @@
           "id": "5:8669257669440271945",
           "name": "valueCost",
           "type": 8
+        },
+        {
+          "id": "6:4174176320212213089",
+          "name": "organizationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:5309573881119795786",
+          "relationTarget": "NonGovernamentalOrganization"
         }
       ],
       "relations": []
@@ -69,18 +72,26 @@
           "type": 6
         }
       ],
-      "relations": []
+      "relations": [
+        {
+          "id": "1:4478626835104914355",
+          "name": "incidents",
+          "targetId": "1:3541860583653262145"
+        }
+      ]
     }
   ],
   "lastEntityId": "2:7228886646688818442",
-  "lastIndexId": "0:0",
-  "lastRelationId": "0:0",
+  "lastIndexId": "1:5309573881119795786",
+  "lastRelationId": "1:4478626835104914355",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    7752429427564858712
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

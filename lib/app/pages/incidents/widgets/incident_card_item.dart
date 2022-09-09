@@ -53,21 +53,11 @@ class IncidentCardItem extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          incidentCase.caseName,
+                          incidentCase.organization.target!.name,
                         )
                       ],
                     ),
                   ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  "Descrição: ",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  incidentCase.description,
                 ),
                 const SizedBox(
                   height: 20,
@@ -86,8 +76,8 @@ class IncidentCardItem extends StatelessWidget {
             ),
           ),
           Divider(
-            thickness: 0.5,
-            height: 0,
+            thickness: 1,
+            height: 1,
             color: Colors.grey[400],
           ),
           InkWell(

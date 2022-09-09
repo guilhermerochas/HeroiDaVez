@@ -6,6 +6,6 @@ enum LocalStorageKey {
 }
 
 abstract class ILocalStorageService {
-  T getValue<T>(LocalStorageKey key);
-  void storeValue<T>(LocalStorageKey key, T value);
+  T? getValue<T>(LocalStorageKey key);
+  void storeValue<T>(LocalStorageKey key, T? value);
 }

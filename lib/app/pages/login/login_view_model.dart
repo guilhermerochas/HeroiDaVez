@@ -1,39 +1,60 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:heroi_da_vez/app/components/text_input_component.dart';
+import 'package:heroi_da_vez/app/data/i_database.dart';
 import 'package:heroi_da_vez/app/routes.dart';
+import 'package:heroi_da_vez/app/services/login_service/i_login_service.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  final FocusNode _focusNode = FocusNode();
-  final TextInputComponent _heroId = TextInputComponent();
+  final IDatabase database;
+  final ILoginService _loginService;
 
-  FocusNode get focusNode => _focusNode;
+  final TextInputComponent _heroId = TextInputComponent(
+    validator: (input) => input.errorMessage == null && input.text.length == 6,
+  );
 
   TextInputComponent get heroId => _heroId;
 
-  void setHeroId(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      _heroId.errorMessage = "valor não pode ser vazio!";
-      notifyListeners();
-      return;
+  LoginViewModel(this.database, this._loginService);
+
+  void setHeroId(String value) {
+    _heroId.text = value;
+    handleValidateHeroId(value);
+    notifyListeners();
+  }
+
+  bool handleIsLoginValid() {
+    if (!_heroId.isValid()) {
+      return false;
     }
 
-    if (value.length <= 4) {
-      _heroId.errorMessage = "Id muito curto";
-      notifyListeners();
+    var iterableOngValue = database.nonGovernamentalOrganization
+        .getAll()
+        .where((element) => element.loginCode == _heroId.text);
+
+    if (iterableOngValue.isEmpty) {
+      return false;
+    }
+
+    _loginService.setCurrentUser(iterableOngValue.first);
+
+    return true;
+  }
+
+  void handleValidateHeroId(String? value) {
+    if (value == null || value.length != 6) {
+      _heroId.errorMessage = "Preencha o campo de Id!";
       return;
     }
 
     _heroId.errorMessage = null;
-    _heroId.text = value;
+  }
+
+  void handleNavigateToLogin() {
+    router.push(Routes.profilePage.toString());
     notifyListeners();
   }
 
-  void handleOnLogin() {
-    if (!_heroId.isValid()) {
-      return;
-    }
-
-    focusNode.unfocus();
+  void handleOnClickIncidentsButton() {
     router.push(Routes.incidentsPage.toString());
     notifyListeners();
   }
