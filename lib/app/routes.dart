@@ -1,55 +1,25 @@
-import 'package:go_router/go_router.dart';
-import 'package:heroi_da_vez/app/pages/create_incident/create_incident.dart';
-import 'package:heroi_da_vez/app/pages/incident_detail/incident_detail.dart';
-import 'package:heroi_da_vez/app/pages/incidents/incidents.dart';
-import 'package:heroi_da_vez/app/pages/login/login.dart';
-import 'package:heroi_da_vez/app/pages/profile/profile.dart';
-import 'package:heroi_da_vez/app/pages/register/register.dart';
-
 enum Routes {
-  loginPage("/"),
-  registerPage("/register"),
-  profilePage("/profile"),
-  incidentsPage("/incident/list"),
-  incidentDetail("/incident/:incidentId", defaultRouteName: "/incident/"),
-  createIncident("/incident/add");
+  loginPage("/", false),
+  registerPage("/register", true),
+  profilePage("/profile", true),
+  incidentsPage("/incident/list", false),
+  incidentDetail(
+    "/incident/:incidentId",
+    false,
+    defaultRouteName: "/incident/",
+  ),
+  createIncident("/incident/add", false);
 
   final String routeName;
   final String? defaultRouteName;
+  final bool authorized;
 
-  const Routes(this.routeName, {this.defaultRouteName});
+  const Routes(
+    this.routeName,
+    this.authorized, {
+    this.defaultRouteName,
+  });
 
   @override
   String toString() => routeName;
 }
-
-final GoRouter router = GoRouter(
-  routes: [
-    GoRoute(
-      path: Routes.loginPage.routeName,
-      builder: (context, state) => const LoginPage(),
-    ),
-    GoRoute(
-      path: Routes.profilePage.routeName,
-      builder: (context, state) => const ProfilePage(),
-    ),
-    GoRoute(
-      path: Routes.registerPage.routeName,
-      builder: (context, state) => const RegisterPage(),
-    ),
-    GoRoute(
-      path: Routes.incidentsPage.routeName,
-      builder: (context, state) => const IncidentsPage(),
-    ),
-    GoRoute(
-      path: Routes.incidentDetail.routeName,
-      builder: (context, state) => IncidentDetailPage(
-        incidentId: int.parse(state.params["incidentId"] as String),
-      ),
-    ),
-    GoRoute(
-      path: Routes.createIncident.routeName,
-      builder: (context, state) => const CreateIncidentPage(),
-    )
-  ],
-);

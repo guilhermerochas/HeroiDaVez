@@ -1,12 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:heroi_da_vez/app/components/text_input_component.dart';
 import 'package:heroi_da_vez/app/data/i_database.dart';
-import 'package:heroi_da_vez/app/routes.dart';
 import 'package:heroi_da_vez/app/services/login_service/i_login_service.dart';
+
+import '../../data/models/non_governmental_organization.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final IDatabase database;
-  final ILoginService _loginService;
+  final ILoginService<NonGovernamentalOrganization?> _loginService;
 
   final TextInputComponent _heroId = TextInputComponent(
     validator: (input) => input.errorMessage == null && input.text.length == 6,
@@ -47,15 +48,5 @@ class LoginViewModel extends ChangeNotifier {
     }
 
     _heroId.errorMessage = null;
-  }
-
-  void handleNavigateToLogin() {
-    router.push(Routes.profilePage.toString());
-    notifyListeners();
-  }
-
-  void handleOnClickIncidentsButton() {
-    router.push(Routes.incidentsPage.toString());
-    notifyListeners();
   }
 }

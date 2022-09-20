@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:heroi_da_vez/app/data/i_database.dart';
 import 'package:heroi_da_vez/app/providers.dart';
-import 'package:heroi_da_vez/app/routes.dart';
 import 'package:heroi_da_vez/app/services/local_storage/i_local_storage_service.dart';
 import 'package:heroi_da_vez/app/services/login_service/i_login_service.dart';
 
+import 'data/models/non_governmental_organization.dart';
+
 class HeroiDaVezApp extends StatelessWidget {
   final IDatabase database;
-  final ILoginService loginService;
+  final ILoginService<NonGovernamentalOrganization?> loginService;
   final ILocalStorageService localStorageService;
 
   const HeroiDaVezApp({
@@ -21,7 +22,7 @@ class HeroiDaVezApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProviderContext(
       database: database,
-      widget: MaterialApp.router(
+      widget: (router) => MaterialApp.router(
         theme: ThemeData.from(
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.red[300] as Color,

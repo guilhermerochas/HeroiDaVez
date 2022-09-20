@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:heroi_da_vez/app/widgets/heroi_da_vez_button.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../data/models/incident_case.dart';
 
@@ -54,18 +57,19 @@ class IncidentDetailCardItem extends StatelessWidget {
               ),
             ),
             Row(
-              children: const <Widget>[
-                Expanded(
+              children: <Widget>[
+                const Expanded(
                   child: HeroiDaVezButton(
                     buttonText: "WhatsApp",
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Expanded(
                   child: HeroiDaVezButton(
                     buttonText: "E-mail",
+                    onPressed: () async => await _sendMail(),
                   ),
                 )
               ],
@@ -74,6 +78,31 @@ class IncidentDetailCardItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future _sendMail() async {
+    try {
+      var uri = Uri(
+        scheme: 'mailto',
+        path: incidentCase.organization.target?.email,
+        queryParameters: {
+          'subject': 'Ajude a esta caúsa',
+          'body': '''
+          Olá, a causa de ${incidentCase.caseName} com a descrição: ${incidentCase.description}.
+
+          Está precisando de uma doação de R\$ ${incidentCase.valueCost}, poderia nos ajudar?
+        ''',
+        },
+      );
+
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      }
+    } on Exception catch (exception) {
+      if (kDebugMode) {
+        print(exception.toString());
+      }
+    }
   }
 
   Widget _contentCardContainer() {

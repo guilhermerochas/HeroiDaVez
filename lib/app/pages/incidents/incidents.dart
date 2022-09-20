@@ -4,16 +4,21 @@ import 'package:heroi_da_vez/app/pages/incidents/incidents_view_model.dart';
 import 'package:heroi_da_vez/app/pages/incidents/widgets/incident_card_item.dart';
 import 'package:provider/provider.dart';
 
+import '../../app_router.dart';
+import '../../routes.dart';
 import 'widgets/incident_header.dart';
 
 class IncidentsPage extends StatelessWidget {
-  const IncidentsPage({Key? key}) : super(key: key);
+  late AppRouter _appRouter;
+
+  IncidentsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var viewModel = context.read<IncidentsPageViewModel>();
 
     var incidentCases = viewModel.loadIncidents();
+    _appRouter = context.read<AppRouter>();
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -61,8 +66,7 @@ class IncidentsPage extends StatelessWidget {
                     IncidentCase incidentCase = incidentCases[index];
                     return IncidentCardItem(
                       incidentCase: incidentCase,
-                      handleOnMoreDetailsButton: () =>
-                          viewModel.handleIncidentSelected(
+                      handleOnMoreDetailsButton: () => _handleIncidentSelected(
                         incidentCase.id,
                       ),
                     );
@@ -74,6 +78,12 @@ class IncidentsPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _handleIncidentSelected(int incidentId) {
+    _appRouter.router.push(
+      "${Routes.incidentDetail.defaultRouteName}$incidentId",
     );
   }
 }

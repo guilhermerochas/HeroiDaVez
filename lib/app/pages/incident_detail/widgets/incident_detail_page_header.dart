@@ -20,18 +20,6 @@ class IncidentDetailPageHeader extends StatelessWidget {
             ),
           ),
         ),
-        const Spacer(),
-        RawMaterialButton(
-          onPressed: () {},
-          elevation: 0,
-          padding: const EdgeInsets.all(5.0),
-          shape: const CircleBorder(),
-          child: Icon(
-            Icons.login_outlined,
-            color: Colors.red[400],
-            size: 40,
-          ),
-        ),
       ],
     );
   }
