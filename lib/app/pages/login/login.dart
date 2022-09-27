@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:heroi_da_vez/app/app_router.dart';
 import 'package:heroi_da_vez/app/constants/assets.dart';
+import 'package:heroi_da_vez/app/data/models/non_governmental_organization.dart';
 import 'package:heroi_da_vez/app/pages/login/login_view_model.dart';
+import 'package:heroi_da_vez/app/services/login_service/i_login_service.dart';
 import 'package:heroi_da_vez/app/widgets/heroi_da_vez_button.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +19,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late final AppRouter appRouter = context.read<AppRouter>();
+
   final double logoHeightAndWidth = 200;
   final double circularBorderRadious = 15;
   final FocusNode _focusNode = FocusNode();

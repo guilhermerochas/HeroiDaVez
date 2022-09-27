@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:heroi_da_vez/app/data/models/incident_case.dart';
 
-class IncidentCardItem extends StatelessWidget {
+class IncidentCardItemDetailed extends StatelessWidget {
   final IncidentCase incidentCase;
   final Function() handleOnMoreDetailsButton;
 
-  const IncidentCardItem({
+  const IncidentCardItemDetailed({
     Key? key,
     required this.incidentCase,
     required this.handleOnMoreDetailsButton,
@@ -45,17 +45,20 @@ class IncidentCardItem extends StatelessWidget {
                     const SizedBox(
                       width: 100,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Text(
-                          "ONG: ",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          incidentCase.organization.target!.name,
-                        )
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Text(
+                            "ONG: ",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            overflow: TextOverflow.ellipsis,
+                            incidentCase.organization.target!.name,
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),

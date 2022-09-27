@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:heroi_da_vez/app/app_router.dart';
-import 'package:heroi_da_vez/app/widgets/app_title.dart';
+import 'package:heroi_da_vez/app/data/i_database.dart';
+import 'package:heroi_da_vez/app/data/models/non_governmental_organization.dart';
+import 'package:heroi_da_vez/app/services/login_service/i_login_service.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/models/incident_case.dart';
-import '../../data/models/non_governmental_organization.dart';
-import '../incidents/widgets/incident_card_item.dart';
+import 'package:heroi_da_vez/app/app_router.dart';
+import 'package:heroi_da_vez/app/widgets/app_title.dart';
+
+import '../../components/incident_card_item.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var incidentCase = IncidentCase(
-      caseName: 'Doação para animais',
-      description: 'Nos ajude para uma doação de animais carentes',
-      valueCost: 120,
-      id: 0,
-    );
+    var profile =
+        context.read<ILoginService<NonGovernamentalOrganization?>>().getUser();
 
-    incidentCase.organization.target = NonGovernamentalOrganization(
-      name: 'Ong do Bem',
-      loginCode: '112233',
-      email: 'ongdobem@gmail.com',
-    );
+    var incidents = context
+        .read<IDatabase>()
+        .incidentCase
+        .getAll()
+        .where((element) => element.organization.target?.id == profile?.id)
+        .toList();
 
     return WillPopScope(
       onWillPop: () async {
@@ -58,11 +57,10 @@ class ProfilePage extends StatelessWidget {
                     key: key,
                     itemBuilder: (context, index) {
                       return IncidentCardItem(
-                        incidentCase: incidentCase,
-                        handleOnMoreDetailsButton: () => null,
+                        incidentCase: incidents[index],
                       );
                     },
-                    itemCount: 30,
+                    itemCount: incidents.length,
                   ),
                 )
               ],

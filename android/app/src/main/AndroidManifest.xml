@@ -4,7 +4,8 @@
    <application
         android:label="HeroiDaVez"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:roundIcon="@mipmap/ic_heroi_da_vez"
+        android:icon="@mipmap/ic_heroi_da_vez">
         <activity
             android:name=".MainActivity"
             android:exported="true"

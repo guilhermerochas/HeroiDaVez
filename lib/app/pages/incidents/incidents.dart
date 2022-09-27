@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heroi_da_vez/app/data/models/incident_case.dart';
 import 'package:heroi_da_vez/app/pages/incidents/incidents_view_model.dart';
-import 'package:heroi_da_vez/app/pages/incidents/widgets/incident_card_item.dart';
+import 'package:heroi_da_vez/app/components/incident_card_item_detailed.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_router.dart';
@@ -64,7 +64,7 @@ class IncidentsPage extends StatelessWidget {
                   key: key,
                   itemBuilder: (context, index) {
                     IncidentCase incidentCase = incidentCases[index];
-                    return IncidentCardItem(
+                    return IncidentCardItemDetailed(
                       incidentCase: incidentCase,
                       handleOnMoreDetailsButton: () => _handleIncidentSelected(
                         incidentCase.id,

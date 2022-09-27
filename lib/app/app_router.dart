@@ -49,12 +49,6 @@ class AppRouter {
         builder: (context, state) => const CreateIncidentPage(),
       )
     ],
-    redirect: (GoRouterState state) {
-      var isGoingToLogin = state.location == Routes.loginPage.routeName;
-      var isLoggedIn = _loginService.isUserLoggedIn;
-
-      return null;
-    },
   );
 
   GoRouter get router => _router;

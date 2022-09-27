@@ -25,7 +25,7 @@ class UserLoginService extends ChangeNotifier
   @override
   NonGovernamentalOrganization? getUser() {
     var user = _localStorageService.getValue(LocalStorageKey.loggedUser);
-    return user;
+    return NonGovernamentalOrganization?.fromJson(user);
   }
 
   @override

@@ -23,14 +23,7 @@ class SharedPreferencesService extends ILocalStorageService {
     }
 
     var decodedItem = jsonDecode(storedItem);
-
-    if (decodedItem is T) {
-      return decodedItem;
-    }
-
-    throw Exception(
-      "Not able to convert locally stored item into generic type",
-    );
+    return decodedItem as T;
   }
 
   @override
